@@ -1,0 +1,324 @@
+:root {
+    --primary: #1e40af;
+    --accent: #3b82f6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f4f7fa;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+header {
+    background: var(--primary);
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+.subtitle {
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.form-content {
+    padding: 30px;
+}
+
+/* ====================== ACCORDION STYLES ====================== */
+.accordion-item {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background: #f8fafc;
+    padding: 18px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #1e40af;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.accordion-header:hover {
+    background: #f1f5f9;
+}
+
+.accordion-content {
+    padding: 20px;
+    display: none;
+    background: white;
+}
+
+.accordion-item.active .accordion-content {
+    display: block;
+}
+
+/* Animated Triangle */
+.toggle-icon {
+    font-size: 1.3rem;
+    transition: transform 0.4s ease;
+    display: inline-block;
+    line-height: 1;
+}
+
+.accordion-item.active .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+/* Educational Table */
+.edu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8fafc;
+    border: 2px solid #1e40af;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.edu-table th {
+    background: #1e40af;
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.edu-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+}
+
+.year-input {
+    width: 48% !important;
+    display: inline-block;
+}
+
+/* Transferee */
+.transferee-checkbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    margin-bottom: 15px;
+}
+
+.transferee-checkbox-container input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.transferee-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1e40af;
+    text-align: center;
+    cursor: pointer;
+}
+
+.transferee-section {
+    display: none;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Buttons */
+.btn-submit {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background: #1e3a8a;
+}
+
+/* Error Messages */
+.error-message {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* Prevent browser default red borders */
+input:invalid, select:invalid, textarea:invalid {
+    border-color: #ddd !important;
+}
+
+/* ====================== RESPONSIVE DESIGN ====================== */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+    
+    .form-content {
+        padding: 20px;
+    }
+    
+    header {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.7rem;
+    }
+    
+    .accordion-header {
+        padding: 15px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toggle-icon {
+        font-size: 1.1rem;
+    }
+}
+
+/* ====================== LOGIN PAGE STYLES ====================== */
+.login-container {
+    max-width: 420px;
+    margin: 80px auto;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-container h1 {
+    color: #1e40af;
+    margin-bottom: 30px;
+}
+
+.error {
+    color: #dc2626;
+    background: #fee2e2;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.divider {
+    margin: 25px 0;
+    border-top: 1px solid #ddd;
+    position: relative;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    color: #666;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn-register {
+    background: #10b981;
+    color: white;
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-register:hover {
+    background: #059669;
+}
+
+.error {
+    color: #dc2626;
+    background: #fee2e2;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #dc2626;
+    background: #fee2e2;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Applicants</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 1300px; margin: 20px auto;">
+        <h1>All Applicants</h1>
+        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+
+        <!-- Real-time Search -->
+        <div style="margin: 20px 0;">
+            <input type="text" id="searchInput" placeholder="Search by name, email, or course..." 
+                   style="width:100%; padding:12px; border-radius:8px; border:1px solid #ddd;">
+        </div>
+
+        <table class="recent-table" id="applicantsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated by JavaScript or Jinja loop -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

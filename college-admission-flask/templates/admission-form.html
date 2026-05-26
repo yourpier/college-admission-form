@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>College Admission Application</h1>
+            <p class="subtitle">Please fill out the form carefully</p>
+            <div style="text-align:right; padding:10px 0;">
+                <a href="{{ url_for('index') }}" 
+                   style="color:#1e40af; text-decoration:none; font-weight:500; padding:8px 16px; border:1px solid #1e40af; border-radius:6px;">
+                    ← Back to Login
+                </a>
+            </div>
+        </header>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-container" style="display: none;">
+            <div style='text-align:center; margin: 20px auto; padding: 40px; max-width: 700px; border: 3px solid #10b981; border-radius: 15px; background:#f0fdf4;'>
+                <h1 style='color:#10b981;'>✅ Application Submitted Successfully!</h1>
+                <h2>Applicant ID: <strong id="applicantId"></strong></h2>
+                <p>Your application has been received and saved.</p>
+                <br>
+                <a href="{{ url_for('admission_form') }}" style='padding:12px 30px; background:#1e40af; color:white; text-decoration:none; border-radius:8px; display:inline-block;'>Submit Another Application</a>
+            </div>
+        </div>
+
+        <div class="form-content">
+            <form id="admissionForm" action="{{ url_for('admission_form') }}" method="POST" novalidate>
+
+                <!-- 1. Personal Information -->
+                <div class="accordion-item active">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>1. Personal Information <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Last Name <span class="required">*</span></label>
+                                <input type="text" name="last_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>First Name <span class="required">*</span></label>
+                                <input type="text" name="first_name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Middle Name <span class="required">*</span></label>
+                                <input type="text" name="middle_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Suffix</label>
+                                <input type="text" name="name_suffix">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Birth Date <span class="required">*</span></label>
+                                <input type="date" name="birth_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Sex <span class="required">*</span></label>
+                                <select name="sex_id" required>
+                                    <option value="">Select</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Civil Status <span class="required">*</span></label>
+                                <select name="civil_status_id" required>
+                                    <option value="">Select</option>
+                                    <option value="1">Single</option>
+                                    <option value="2">Married</option>
+                                    <option value="3">Widowed</option>
+                                    <option value="4">Separated</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Citizenship <span class="required">*</span></label>
+                                <input type="text" name="citizenship" value="Filipino" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Contact Information -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>2. Contact Information <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Contact Number <span class="required">*</span></label>
+                                <input type="tel" name="primary_contact_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address <span class="required">*</span></label>
+                                <input type="email" 
+                                       name="primary_contact_email" 
+                                       id="primary_contact_email" 
+                                       required 
+                                       placeholder="example@gmail.com">
+                                <small id="emailHelp" style="color:#666;">Must be a valid email address</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Create Password <span class="required">*</span></label>
+                            <input type="password" name="password" required minlength="6">
+                            <small>Minimum 6 characters</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Permanent Address -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>3. Permanent Address <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>House No. / Unit <span class="required">*</span></label>
+                                <input type="text" name="house_number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Street <span class="required">*</span></label>
+                                <input type="text" name="street" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Subdivision / Village</label>
+                            <input type="text" name="subdivision">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Barangay / Town <span class="required">*</span></label>
+                                <input type="text" name="town" required>
+                            </div>
+                            <div class="form-group">
+                                <label>City <span class="required">*</span></label>
+                                <input type="text" name="city" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Province <span class="required">*</span></label>
+                                <input type="text" name="province" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Code <span class="required">*</span></label>
+                                <input type="number" name="postal_code" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Educational Attainment -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>4. Educational Attainment <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="table-container">
+                            <table class="edu-table">
+                                <thead>
+                                    <tr>
+                                        <th>LEVEL</th>
+                                        <th>SCHOOL NAME</th>
+                                        <th>SCHOOL ADDRESS</th>
+                                        <th>TYPE</th>
+                                        <th>YEAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Elementary</strong></td>
+                                        <td><input type="text" name="elem_school" placeholder="School Name"></td>
+                                        <td><input type="text" name="elem_address" placeholder="Address"></td>
+                                        <td class="type-col">
+                                            <label><input type="radio" name="elem_type" value="Public"> Public</label><br>
+                                            <label><input type="radio" name="elem_type" value="Private"> Private</label>
+                                        </td>
+                                        <td><input type="text" name="elem_from" placeholder="From" class="year-input"> - <input type="text" name="elem_to" placeholder="To" class="year-input"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Junior High</strong></td>
+                                        <td><input type="text" name="hs_school" placeholder="School Name"></td>
+                                        <td><input type="text" name="hs_address" placeholder="Address"></td>
+                                        <td class="type-col">
+                                            <label><input type="radio" name="hs_type" value="Public"> Public</label><br>
+                                            <label><input type="radio" name="hs_type" value="Private"> Private</label>
+                                        </td>
+                                        <td><input type="text" name="hs_from" placeholder="From" class="year-input"> - <input type="text" name="hs_to" placeholder="To" class="year-input"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Senior High</strong></td>
+                                        <td><input type="text" name="shs_school" placeholder="School Name"></td>
+                                        <td><input type="text" name="shs_address" placeholder="Address"></td>
+                                        <td class="type-col">
+                                            <label><input type="radio" name="shs_type" value="Public"> Public</label><br>
+                                            <label><input type="radio" name="shs_type" value="Private"> Private</label>
+                                        </td>
+                                        <td><input type="text" name="shs_from" placeholder="From" class="year-input"> - <input type="text" name="shs_to" placeholder="To" class="year-input"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>College</strong></td>
+                                        <td><input type="text" name="college_school" placeholder="School Name"></td>
+                                        <td><input type="text" name="college_address" placeholder="Address"></td>
+                                        <td class="type-col">
+                                            <label><input type="radio" name="college_type" value="Public"> Public</label><br>
+                                            <label><input type="radio" name="college_type" value="Private"> Private</label>
+                                        </td>
+                                        <td><input type="text" name="college_from" placeholder="From" class="year-input"> - <input type="text" name="college_to" placeholder="To" class="year-input"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Course Preference -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>5. Course Preference <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="form-group">
+                            <label>Track / Strand <span class="required">*</span></label>
+                            <select name="track_strand" required>
+                                <option value="">Select Track</option>
+                                <option value="STEM">STEM</option>
+                                <option value="ABM">ABM</option>
+                                <option value="HUMSS">HUMSS</option>
+                                <option value="GAS">GAS</option>
+                                <option value="TVL">TVL</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Choice Course <span class="required">*</span></label>
+                                <input type="text" name="course_first_choice" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Second Choice Course</label>
+                                <input type="text" name="course_second_choice">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Transferee Information -->
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <h2>6. Transferee Information <span class="toggle-icon">▼</span></h2>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="transferee-checkbox-container">
+                            <input type="checkbox" id="isTransferee" onclick="toggleTransferee()">
+                            <label for="isTransferee" class="transferee-label">I am a College Transferee</label>
+                        </div>
+
+                        <div id="transfereeFields" class="transferee-section">
+                            <div class="form-group">
+                                <label>Previous Course / Program <span class="required">*</span></label>
+                                <input type="text" name="course">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason for Transfer <span class="required">*</span></label>
+                                <textarea name="reason_for_transfer" rows="3"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>GWA <span class="required">*</span></label>
+                                    <input type="number" step="0.01" name="gwa">
+                                </div>
+                                <div class="form-group">
+                                    <label>LRN <span class="required">*</span></label>
+                                    <input type="text" name="lrn">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 30px 0; text-align: center;">
+                    <a href="{{ url_for('index') }}" 
+                       style="display: inline-block; padding: 12px 25px; background: #6b7280; color: white; 
+                              text-decoration: none; border-radius: 8px; font-weight: 500; margin-right: 15px;">
+                        ← Back to Login
+                    </a>
+                </div>
+
+                <button type="submit" class="btn btn-submit" id="submitBtn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

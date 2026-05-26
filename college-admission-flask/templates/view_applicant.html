@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant #{{ applicant.applicant_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 900px; margin: 30px auto;">
+        <h1>Applicant Profile #{{ applicant.applicant_id }}</h1>
+        <a href="{{ url_for('applicants') }}">← Back to All Applicants</a>
+
+        <div style="background:white; padding:30px; border-radius:12px; margin-top:20px;">
+            <h2>{{ applicant.first_name }} {{ applicant.last_name }}</h2>
+            <p><strong>Email:</strong> {{ applicant.primary_contact_email }}</p>
+            <p><strong>Course:</strong> {{ applicant.course_first_choice }}</p>
+            <p><strong>Status:</strong> {{ applicant.status }}</p>
+            
+            <!-- More details -->
+            <hr>
+            <p><strong>Birth Date:</strong> {{ applicant.birth_date }}</p>
+            <p><strong>Contact Number:</strong> {{ applicant.primary_contact_number }}</p>
+            <p><strong>Address:</strong> {{ applicant.house_number }}, {{ applicant.street }}, {{ applicant.town }}, {{ applicant.city }}</p>
+        </div>
+    </div>
+</body>
+</html>
