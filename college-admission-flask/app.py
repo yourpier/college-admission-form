@@ -47,7 +47,6 @@ def admission_form():
             conn = get_db_connection()
             cursor = conn.cursor()
 
-            # Extract all form data
             last_name = request.form['last_name']
             first_name = request.form['first_name']
             middle_name = request.form['middle_name']
@@ -58,7 +57,7 @@ def admission_form():
             citizenship = request.form.get('citizenship', 'Filipino')
             primary_contact_number = request.form['primary_contact_number']
             primary_contact_email = request.form['primary_contact_email']
-            password = request.form['password']                    # ← This was missing
+            password = request.form['password']
             track_strand = request.form['track_strand']
             course_first_choice = request.form['course_first_choice']
             course_second_choice = request.form.get('course_second_choice')
@@ -77,7 +76,6 @@ def admission_form():
                 flash('This email is already registered. Please use a different email.', 'error')
                 return redirect(url_for('admission_form'))
 
-            # Insert Applicant
             cursor.execute("INSERT INTO applicants () VALUES ()")
             applicant_id = cursor.lastrowid
 
@@ -112,7 +110,7 @@ def admission_form():
                 if school_name and school_name.strip():
                     education_level_id = {"Elementary":1, "Junior High":2, "Senior High":3, "College":4}.get(level_name)
                     education_type_id = 1 if request.form.get(type_field) == "Public" else 2
-
+                    
                     cursor.execute("""
                         INSERT INTO educational_attainment 
                         (applicant_id, education_level_id, school_name, school_address, 
@@ -145,11 +143,10 @@ def admission_form():
 
         except Exception as e:
             print("❌ Error submitting application:", str(e))
-            flash('Error submitting application. Please check all fields.', 'error')
+            flash('Error submitting application.', 'error')
             return redirect(url_for('admission_form'))
 
     return render_template('admission-form.html')
-    
 
 # ====================== EDIT APPLICATION ======================
 @app.route('/edit_application', methods=['GET', 'POST'])
@@ -276,17 +273,10 @@ def admin_dashboard():
     cursor = conn.cursor(dictionary=True)
 
     try:
-        # Statistics
-        cursor.execute("SELECT COUNT(*) as total FROM applicants")
-        total = cursor.fetchone()['total']
+        cursor.execute("SELECT COUNT(*) as total FROM applicants"); total = cursor.fetchone()['total']
+        cursor.execute("SELECT COUNT(*) as pending FROM personal_information WHERE status_id = 1"); pending = cursor.fetchone()['pending']
+        cursor.execute("SELECT COUNT(*) as approved FROM personal_information WHERE status_id = 2"); approved = cursor.fetchone()['approved']
 
-        cursor.execute("SELECT COUNT(*) as pending FROM personal_information WHERE status_id = 1")
-        pending = cursor.fetchone()['pending']
-
-        cursor.execute("SELECT COUNT(*) as approved FROM personal_information WHERE status_id = 2")
-        approved = cursor.fetchone()['approved']
-
-        # Personal Information
         cursor.execute("""
             SELECT p.*, s.status 
             FROM personal_information p 
@@ -295,18 +285,12 @@ def admin_dashboard():
         """)
         personal_info = cursor.fetchall()
 
-        # Address
         cursor.execute("SELECT * FROM address ORDER BY applicant_id DESC")
         addresses = cursor.fetchall()
 
-        # Educational Attainment (This was missing!)
-        cursor.execute("""
-            SELECT * FROM educational_attainment 
-            ORDER BY applicant_id DESC
-        """)
+        cursor.execute("SELECT * FROM educational_attainment ORDER BY applicant_id DESC")
         education = cursor.fetchall()
 
-        # College Transferees
         cursor.execute("SELECT * FROM college_transferees ORDER BY applicant_id DESC")
         transferees = cursor.fetchall()
 
@@ -319,13 +303,9 @@ def admin_dashboard():
         conn.close()
 
     return render_template('admin_dashboard.html', 
-                         total=total, 
-                         pending=pending, 
-                         approved=approved,
-                         personal_info=personal_info, 
-                         addresses=addresses,
-                         education=education,           # ← Added this
-                         transferees=transferees)
+                         total=total, pending=pending, approved=approved,
+                         personal_info=personal_info, addresses=addresses, 
+                         education=education, transferees=transferees)
 
 @app.route('/admin/update_status', methods=['POST'])
 @login_required
@@ -353,6 +333,7 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+# ====================== RUN ON RAILWAY ======================
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Railway needs this
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
